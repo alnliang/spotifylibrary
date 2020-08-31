@@ -1,0 +1,14 @@
+html, body {
+    margin: 0;
+    /*font-family: 'Source Sans Pro', sans-serif;*/
+    height: 100%;
+}
+
+footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    height: auto;
+}

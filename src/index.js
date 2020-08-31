@@ -7,7 +7,7 @@ function displayRecommendation(){
      	})
       	.then(function (myJson) {
 			console.log(myJson.tracks);
-			let tablehtml = showSpotifyRecommendation(myJson);
+			let tablehtml = showSpotifyRecommendationCard(myJson);
 			console.log(trackURI.substring(31, 53));
 			document.querySelector("#SpotifyRecommendation").innerHTML = tablehtml;
 			console.log(tablehtml);
@@ -30,5 +30,27 @@ function showSpotifyRecommendation(myJson){
  		html += "</tr>";
 	});
     html += "</table>";
+    return html;
+}
+
+function showSpotifyRecommendationCard(myJson){
+    let html = "<div class='row row-cols-1 row-cols-md-4'>";
+    
+	//html += "<tr><th>Track</th><th>Artist</th><th>Album</th></tr>";
+	myJson.tracks.forEach(item => {
+		let embed = item.external_urls.spotify.substring(0,25) + "embed/" + item.external_urls.spotify.substring(25);
+		html += "<div class='col mb-4 card-deck'>";
+		html += "<div class='card border-secondary'>";
+		//html += "<iframe src = '" + embed + "' width='200' height='80'>" + item.name + "</iframe>";
+		html += "<div class='card-body'>";
+		html += "<iframe src = '" + embed + "' width='300' height='120'>" + item.name + "</iframe>";
+		html += "<h6 class='card-title'>Artist: <a href = '" + item.album.artists[0].uri + "'>" + item.album.artists[0].name + "</a></h5>";
+		html += "<p class='card-text'>Album: <a href = '" + item.album.uri + "'>" + item.album.name + "</a></p>";
+		html += '</div><div class="card-footer">';
+        html += '<small class="text-muted">Released on '+ item.album.release_date +'</small>';
+    	html += "</div>";
+ 		html += "</div></div>";
+	});
+    html += "</div>";
     return html;
 }
