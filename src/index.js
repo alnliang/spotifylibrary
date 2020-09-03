@@ -2,15 +2,15 @@ function displayRecommendation(){
 	var trackURI = document.getElementById("trackID").value;
     fetch('http://127.0.0.1:8080/getSpotify?seed_tracks=' + trackURI.substring(31, 53))
     	.then(function (response) {
-			console.log(response);
+			//console.log(response);
        		return response.json();
      	})
       	.then(function (myJson) {
-			console.log(myJson.tracks);
+			//console.log(myJson.tracks);
 			let tablehtml = showSpotifyRecommendationCard(myJson);
-			console.log(trackURI.substring(31, 53));
+			//console.log(trackURI.substring(31, 53));
 			document.querySelector("#SpotifyRecommendation").innerHTML = tablehtml;
-			console.log(tablehtml);
+			//console.log(tablehtml);
 		})
 		.catch(function (error) {
     		console.log("Error: " + error);
@@ -43,9 +43,9 @@ function showSpotifyRecommendationCard(myJson){
 		html += "<div class='card border-secondary'>";
 		//html += "<iframe src = '" + embed + "' width='200' height='80'>" + item.name + "</iframe>";
 		html += "<div class='card-body'>";
-		html += "<iframe src = '" + embed + "' width='300' height='120'>" + item.name + "</iframe>";
-		html += "<h6 class='card-title'>Artist: <a href = '" + item.album.artists[0].uri + "'>" + item.album.artists[0].name + "</a></h5>";
-		html += "<p class='card-text'>Album: <a href = '" + item.album.uri + "'>" + item.album.name + "</a></p>";
+		html += "<iframe src = '" + embed + "' height='80' >" + item.name + "</iframe>";
+		html += "<h6 class='card-title'>Artist: <a href = '" + item.album.artists[0].external_urls.spotify + "'>" + item.album.artists[0].name + "</a></h5>";
+		html += "<p class='card-text'>Album: <a href = '" + item.album.external_urls.spotify + "'>" + item.album.name + "</a></p>";
 		html += '</div><div class="card-footer">';
         html += '<small class="text-muted">Released on '+ item.album.release_date +'</small>';
     	html += "</div>";
@@ -53,4 +53,16 @@ function showSpotifyRecommendationCard(myJson){
 	});
     html += "</div>";
     return html;
+}
+
+function showAlert(event) {
+	let html = `<div class="alert alert-success alert-dismissible fade show" role="alert">
+					Thanks for your feedback! Please continue to support our site.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  					<span aria-hidden="true">&times;</span>
+					</button>
+				  </div>`;
+	
+	document.querySelector("#EmbedHTML").innerHTML = html;
+	event.preventDefault();
 }
