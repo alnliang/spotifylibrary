@@ -1,6 +1,6 @@
 function displayRecommendation(){
 	var trackURI = document.getElementById("trackID").value;
-    fetch('http://127.0.0.1:8080/getSpotify?seed_tracks=' + trackURI.substring(31, 53))
+    fetch('getSpotify?seed_tracks=' + trackURI.substring(31, 53))
     	.then(function (response) {
 			console.log(response);
        		return response.json();
