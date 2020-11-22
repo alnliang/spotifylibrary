@@ -1,0 +1,26 @@
+html, body {
+    margin: 0;
+    /*font-family: 'Source Sans Pro', sans-serif;*/
+    height: 100%;
+}
+
+footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    height: auto;
+}
+
+.card {
+    box-sizing: border-box;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    width: 300px;
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 36px 36px 0;
+}
