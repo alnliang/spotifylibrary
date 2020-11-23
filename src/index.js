@@ -17,6 +17,25 @@ function displayRecommendation(){
     });
 }
 
+function displayDefaultRecommendation(){
+	var trackID = '6mFkJmJqdDVQ1REhVfGgd1'
+    fetch('getSpotify?seed_tracks=' + trackID)
+    	.then(function (response) {
+			//console.log(response);
+       		return response.json();
+     	})
+      	.then(function (myJson) {
+			//console.log(myJson.tracks);
+			let tablehtml = showSpotifyRecommendationCard(myJson);
+			//console.log(trackURI.substring(31, 53));
+			document.querySelector("#SpotifyRecommendation").innerHTML = tablehtml;
+			//console.log(tablehtml);
+		})
+		.catch(function (error) {
+    		console.log("Error: " + error);
+    });
+}
+
 function showSpotifyRecommendation(myJson){
     let html = "<table class = 'table'>";
     html += "<caption style = 'caption-side: top'>Recommendations</caption>";
