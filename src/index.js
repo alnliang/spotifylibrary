@@ -1,6 +1,6 @@
 function displayRecommendation(){
-	var trackURI = document.getElementById("trackID").value;
-    fetch('getSpotify?seed_tracks=' + trackURI.substring(31, 53))
+	var keywords = document.getElementById("trackID").value;
+    fetch('searchSpotify?q=' + keywords + '&type=track&limit=1')
     	.then(function (response) {
 			//console.log(response);
        		return response.json();

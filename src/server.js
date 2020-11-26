@@ -64,6 +64,69 @@ app.get('/getSpotify', function(req, res) {
    });
 })
 
+app.get('/searchSpotify', function(req, res) {
+   const request = require('request');
+   const url = require('url');
+   const queryObject = url.parse(req.url,true).query;
+   console.log(queryObject);
+   var a_token = "";
+   const tokenoption = {
+      url: 'https://accounts.spotify.com/api/token',
+      headers: {
+         'Authorization': "Basic NzQ3NTQ4NWNkMjhjNGJmMmI2MmQ4YTRlMzBhZTUyODM6NThlMzYxYTNkM2FlNGYzNThkYjdkMWFkZjJlNjI4YjI="
+      },
+      form: {
+         'grant_type': 'client_credentials'
+      },
+      json: true
+   };
+   request.post(tokenoption, (err, response, body) => {
+      if (err) { 
+         console.log("got error from spotify api");
+         return console.log(err); }
+      console.log(body.access_token);
+      a_token = body.access_token;
+      const options = {
+         url: 'https://api.spotify.com/v1/search',
+         headers: {
+            'Authorization': 'Bearer ' + body.access_token
+         },
+         json: true,
+         qs: queryObject
+       };
+      console.log("starting to call spotify api");
+      request(options, (err, response, body) => {
+         if (err) { 
+            console.log("got error from spotify api");
+            return console.log(err); }
+         var searchedTrack = JSON.parse(JSON.stringify(body)).tracks.items[0].id;
+         console.log('find id ' + searchedTrack);
+         const recom_option = {
+            url: 'https://api.spotify.com/v1/recommendations',
+            headers: {
+               'Authorization': 'Bearer ' + a_token
+            },
+            json: true,
+            qs: {'seed_tracks': searchedTrack}
+          };
+
+          request(recom_option, (err, response, body) => {
+            if (err) { 
+               console.log("got error from spotify api");
+               return console.log(err); }
+
+            res.header("Access-Control-Allow-Origin", "*");
+            res.end(JSON.stringify(body));
+          });
+         /*console.log(response);
+         console.log(body.url);
+         console.log(body.explanation);*/
+         
+      });
+   });
+})
+
+
 app.delete('/deleteUser', function (req, res) {
    // First read existing users.
    fs.readFile( __dirname + "/" + "users.json", 'utf8', function (err, data) {
